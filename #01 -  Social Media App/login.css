@@ -1,0 +1,105 @@
+/* ----------------------------------------
+   Light, Clean & Modern UI
+-----------------------------------------*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #eef2f3, #d9e4ec);
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #2b2b2b;
+    margin-bottom: 20px;
+}
+
+/* ---------------------
+   Simple Card Container
+----------------------*/
+.container,
+.container2 {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 20px auto;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 14px;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+/* ---------------------
+   Inputs
+----------------------*/
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: 1px solid #cfcfcf;
+    background: #fafafa;
+    font-size: 14px;
+    transition: 0.25s ease;
+}
+
+input:focus {
+    border-color: #6aa9e0;
+    background: #fff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(106, 169, 224, 0.25);
+}
+
+/* ---------------------
+   Buttons
+----------------------*/
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #6aa9e0;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+button:hover {
+    background: #5898cc;
+}
+
+/* ---------------------
+   Text
+----------------------*/
+p {
+    color: #444;
+}
+
+a {
+    color: #4b8cd6;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Output message */
+#print, #priint {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #333;
+}

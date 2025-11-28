@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Social Media App</title>
+    <link rel="stylesheet" href="./main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+  <div class="shell">
+
+    <header>
+        <h1>Social feed 👥</h1>
+        <div>
+            <button class="h-btn">🌙</button>
+            <button class="h-btn">🚪</button>
+        </div>
+    </header>
+    <!-- Top: Search bar + Filters (no functionality) -->
+    <div class="topbar">
+      <div class="search" role="search" aria-label="Search posts">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden style="opacity:.6"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></circle></svg>
+        <input type="text" placeholder="Search posts by text... (no JS)" aria-label="Search input">
+      </div>
+      <div class="filters">
+        <button class="btn">Latest First</button>
+        <button class="btn">Oldest First</button>
+        <button class="btn">Most Liked</button>
+      </div>
+    </div>
+
+    <!-- Composer / Create Post (visual only) -->
+    <div class="composer" aria-label="Create a post">
+      <div class="top">
+        <div class="avatar"></div>
+        <div style="flex:1">
+          <div class="hint">Write a post (text only or provide an image URL).</div>
+            <input type="text" name="text" id="userInput" placeholder="What's on your mind? This is static HTML/CSS — add JS to enable posting..." >          
+            <div class="meta">
+            <div class="left-controls">
+              <div class="emoji-pick" >😊</div>
+              <input class="image-url" type="text" placeholder="Image URL (optional)" aria-label="Image URL">
+            </div>
+            <div>
+              <button class="btn">Cancel</button>
+              <button id="post-button" class="btn --primary">Post</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!-- Example Post -->
+      <article class="post" data-post-id="3">
+        <div class="avatar">A</div>
+        <div class="content">
+          <div class="meta-row"><strong>Ali</strong> · <time datetime="2025-11-23">Nov 23, 2025 — 01:20</time></div>
+          <div class="text">This is an example post showing how text will appear. Use the image URL field above to attach an image.</div>
+          <img src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?auto=format&fit=crop&w=600&q=60" alt="Example image">
+          <div style="margin-top:10px; display:flex; align-items:center; justify-content:space-between">
+            <div class="actions">
+              <button class="action-btn like">❤ Like <span class="counter">12</span></button>
+              <button class="action-btn">💬 Comment</button>
+            </div>
+            <div>
+              <button class="delete">Delete</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article id="article" class="post">
+
+      </article>
+
+
+      <script src="main.js"></script>
+</body>
+</html>
