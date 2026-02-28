@@ -1,24 +1,20 @@
 import React, { useState } from 'react';
-import { createUserWithEmailAndPassword } from 'firebase/auth'; // Fix: Create use karein
-import { auth, db } from '../firebase'; // Path check karlein sahi hai ya nahi
+import { createUserWithEmailAndPassword } from 'firebase/auth'; 
+import { auth, db } from '../firebase'; 
 import { doc, setDoc } from 'firebase/firestore'; 
 import { Link, useNavigate } from 'react-router-dom';
 
 function Register() {
-    const [user, setUser] = useState("");
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("");
-    const [msg, setMsg] = useState("");
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false); // Loading state add ki
-
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const registerHandler = async (e) => {
         e.preventDefault();
-        setError("");
-        setMsg("");
+        if(!role) return alert("Please select a role!");
         setLoading(true);
 
         try {
@@ -26,87 +22,56 @@ function Register() {
             const newUser = userCredential.user;
 
             await setDoc(doc(db, "users", newUser.uid), {
-                name: user,
-                email: email,
-                role: role,
+                name,
+                email,
+                role: role.toLowerCase(),
                 uid: newUser.uid,
                 createdAt: new Date().toISOString()
             });
 
-            setMsg("Account Created Successfully! Redirecting...");
-            
-            // Redirect after 2 seconds
-            setTimeout(() => {
-                navigate('/login'); 
-            }, 2000);
-
+            alert("✨ Account Created! Please Login.");
+            navigate('/login');
         } catch (err) {
-            const errorMessage = err.message.includes("auth/") 
-                ? err.message.split("/")[1].replace(")", "").replace(/-/g, " ") 
-                : err.message;
-            setError(errorMessage);
-        } finally {
-            setLoading(false); // Loading stop chahe success ho ya error
+            alert(err.message);
         }
-    }
+        setLoading(false);
+    };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-            <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
-                <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Create Account</h2>
+        <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-6">
+            <div className="w-full max-w-md bg-white rounded-[40px] p-10 shadow-2xl shadow-blue-100 border border-slate-100">
+                <div className="text-center mb-10">
+                    <div className="w-16 h-16 bg-blue-600 rounded-2xl mx-auto mb-4 flex items-center justify-center text-white text-2xl font-black">H</div>
+                    <h1 className="text-3xl font-black text-slate-900 tracking-tight">Join Our Clinic</h1>
+                    <p className="text-slate-400 mt-2 font-medium">Create your professional account</p>
+                </div>
 
-                <form onSubmit={registerHandler} className="space-y-4">
-                    <div>
-                        <label className="block pl-[4px] text-sm font-medium text-gray-700">Full Name</label>
-                        <input className="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                            onChange={(e) => setUser(e.target.value)} value={user}
-                            type="text" placeholder="Enter Your Name" required disabled={loading}/>
+                <form onSubmit={registerHandler} className="space-y-5">
+                    <input className="w-full p-4 bg-slate-50 border-none rounded-2xl ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 transition-all outline-none" 
+                        placeholder="Full Name" value={name} onChange={e => setName(e.target.value)} required />
+                    
+                    <input className="w-full p-4 bg-slate-50 border-none rounded-2xl ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 transition-all outline-none" 
+                        type="email" placeholder="Email Address" value={email} onChange={e => setEmail(e.target.value)} required />
+                    
+                    <input className="w-full p-4 bg-slate-50 border-none rounded-2xl ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 transition-all outline-none" 
+                        type="password" placeholder="Password (6+ characters)" value={password} onChange={e => setPassword(e.target.value)} required />
+
+                    <div className="grid grid-cols-3 gap-2 p-1 bg-slate-100 rounded-2xl">
+                        {['Doctor', 'Receptionist', 'Patient'].map((r) => (
+                            <button key={r} type="button" onClick={() => setRole(r)}
+                                className={`py-2 text-xs font-bold rounded-xl transition-all ${role === r ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>
+                                {r}
+                            </button>
+                        ))}
                     </div>
 
-                    <div>
-                        <label className="block pl-[4px] text-sm font-medium text-gray-700">Email Address</label>
-                        <input className="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                            onChange={(e) => setEmail(e.target.value)} value={email}
-                            type="email" placeholder="Enter Your Email" required disabled={loading}/>
-                    </div>
-
-                    <div>
-                        <label className="block pl-[4px] text-sm font-medium text-gray-700">Password</label>
-                        <input className="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                            onChange={(e) => setPassword(e.target.value)} value={password}
-                            type="password" placeholder="••••••••" required disabled={loading}/>
-                    </div>
-
-                    <div>
-                        <label className="block pl-[4px] text-sm font-medium text-gray-700">Role</label>
-                        <select className="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                            value={role} onChange={(e) => setRole(e.target.value)} required disabled={loading}>
-                            <option value="" disabled>Select Role</option>
-                            <option value="doctor">Doctor</option>
-                            <option value="receptionist">Receptionist</option>
-                            <option value="patient">Patient</option>
-                        </select>
-                    </div>
-
-                    {msg && <div className="p-3 rounded bg-green-100 text-green-700 text-sm font-medium">{msg}</div>}
-                    {error && <div className="p-3 rounded bg-red-100 text-red-700 text-sm font-medium">{error}</div>}
-
-                    <button 
-                        type='submit' 
-                        disabled={loading}
-                        className={`w-full ${loading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'} text-white font-bold py-3 rounded-lg shadow-md transition duration-200 transform active:scale-[0.98] flex justify-center items-center`}
-                    >
-                        {loading ? (
-                            <span className="flex items-center">
-                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                                Processing...
-                            </span>
-                        ) : 'Register'}
+                    <button disabled={loading} className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl hover:bg-black transition-all">
+                        {loading ? "Creating..." : "Register Now"}
                     </button>
                 </form>
 
-                <p className="text-center text-gray-500 text-sm mt-6">
-                    Already have an account? <Link to="/login" className="text-blue-600 hover:underline">Sign In</Link>
+                <p className="text-center mt-8 text-slate-500 font-medium text-sm">
+                    Already have an account? <Link to="/login" className="text-blue-600 font-bold hover:underline">Sign In</Link>
                 </p>
             </div>
         </div>

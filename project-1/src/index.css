@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+body {
+  @apply bg-slate-50 text-slate-900 antialiased;
+}
+
+/* Custom Card Effect */
+.glass-card {
+  @apply bg-white border border-slate-200 shadow-sm rounded-xl overflow-hidden;
+}
