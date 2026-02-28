@@ -146,7 +146,3 @@ function takerPassword () {
     let c = document.getElementById("form3").value ; 
     return c ;
 }
-
-// setInterval(() => {
-//     window.loca
-// }, 500);

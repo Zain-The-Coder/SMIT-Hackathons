@@ -15,7 +15,6 @@ function elementGenerator () {
 
     
 }
-
 function timeCreator () {
     let time = new Date();
     let hour = time.getHours();
